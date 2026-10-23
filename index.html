@@ -100,26 +100,29 @@
 								<header>
 									<h2>Contact</h2>
 								</header>
-								<form action="https://formsubmit.co/sgenevaheron@gmail.com" method="post">
-									<div>
-										<div class="row">
-											<div class="col-6 col-12-medium">
-												<input type="text" name="name" placeholder="Name" />
-											</div>
-											<div class="col-6 col-12-medium">
-												<input type="text" name="email" placeholder="Email" />
-											</div>
-											<div class="col-12">
-												<input type="text" name="subject" placeholder="Subject" />
-											</div>
-											<div class="col-12">
-												<textarea name="message" placeholder="Message" rows="6"></textarea>
-											</div>
-											<div class="col-12">
-												<input type="submit" value="Send Message" />
-											</div>
-										</div>
-									</div>
+								<form id="contact-form" action="https://formsubmit.co/ajax/sgenevaheron@gmail.com" method="POST">
+    									<div>
+       										 <div class="row">
+            										<div class="col-6 col-12-medium">
+                										<input type="text" name="name" placeholder="Name" required />
+           										</div>
+            										<div class="col-6 col-12-medium">
+                										<input type="email" name="email" placeholder="Email" required />
+            										</div>
+            										<div class="col-12">
+                										<input type="text" name="subject" placeholder="Subject" required />
+            										</div>
+            										<div class="col-12">
+                										<textarea name="message" placeholder="Message" rows="6" required></textarea>
+            										</div>
+            										<div class="col-12">
+                										<input type="submit" value="Send Message" />
+            										</div>
+            										<div class="col-12">
+                										<p id="contact-status" role="status" aria-live="polite"></p>
+            										</div>
+        									</div>
+    									</div>
 								</form>
 							</article>
 
@@ -140,6 +143,43 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+<script>
+    $(function () {
+        $('#contact-form').on('submit', function (event) {
+            event.preventDefault();
+
+            var $form = $(this);
+            var $status = $('#contact-status');
+            var $button = $form.find('input[type="submit"]');
+
+            $button.prop('disabled', true).val('Sending...');
+            $status.text('Sending your message...');
+
+            $.ajax({
+                url: $form.attr('action'),
+                method: 'POST',
+                data: $form.serialize(),
+                dataType: 'json',
+                accepts: 'application/json',
+
+                success: function () {
+                    $status.text('Thank you! Your message has been sent.');
+                    $form[0].reset();
+                },
+
+                error: function () {
+                    $status.text(
+                        'Sorry, your message could not be sent. Please try again.'
+                    );
+                },
+
+                complete: function () {
+                    $button.prop('disabled', false).val('Send Message');
+                }
+            });
+        });
+    });
+</script>
 
 	</body>
 </html>
