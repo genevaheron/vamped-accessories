@@ -2203,3 +2203,35 @@ input, select, textarea {
     line-height: inherit;
     color: inherit;
 }
+/* Fix the intro canvas on mobile screens */
+@media screen and (max-width: 980px) {
+
+    #main > .panel.intro .pic:before {
+        display: none !important;
+        background: none !important;
+    }
+
+    #main > .panel.intro .pic .text-canvas {
+        background: #ffffff !important;
+        color: #800020 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        width: 100% !important;
+        height: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    #main > .panel.intro .pic .text-canvas p {
+        color: #800020 !important;
+        text-align: center !important;
+        margin: 0 !important;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+    }
+
+}
