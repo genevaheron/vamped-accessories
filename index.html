@@ -51,7 +51,7 @@
 									<h2>Work</h2>
 								</header>
 								<p>
-									All accessories are handmade by me! Contact me for orders.
+									All accessories are handmade by me! I offer corner bookmarks, small keychain holders, medium keychain holders, book sleeves, and tote bags. Contact me for orders.
 								</p>
 								<section>
 									<div class="row">
@@ -82,15 +82,7 @@
 										<div class="col-4 col-6-medium col-12-small">
 											<a href="#" class="image fit"><img src="images/pic09.jpg" alt=""></a>
 										</div>
-										<div class="col-4 col-6-medium col-12-small">
-											<a href="#" class="image fit"><img src="images/pic10.jpg" alt=""></a>
-										</div>
-										<div class="col-4 col-6-medium col-12-small">
-											<a href="#" class="image fit"><img src="images/pic11.jpg" alt=""></a>
-										</div>
-										<div class="col-4 col-6-medium col-12-small">
-											<a href="#" class="image fit"><img src="images/pic12.jpg" alt=""></a>
-										</div>
+										
 									</div>
 								</section>
 							</article>
@@ -143,6 +135,13 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+
+<!-- Image Lightbox -->
+<div id="image-lightbox" role="dialog" aria-modal="true" aria-label="Enlarged product image">
+    <button type="button" id="image-lightbox-close" aria-label="Close enlarged image">&times;</button>
+    <img src="" alt="Enlarged product photo">
+</div>
+
 <script>
     $(function () {
         $('#contact-form').on('submit', function (event) {
@@ -178,6 +177,60 @@
                 }
             });
         });
+    });
+</script>
+
+<script>
+    $(function () {
+        var $lightbox = $('#image-lightbox');
+        var $lightboxImage = $lightbox.find('img');
+
+        // Open the lightbox when a gallery image is clicked.
+        $('#work a.image').on('click', function (event) {
+            event.preventDefault();
+
+            var $thumbnail = $(this).find('img');
+
+            if (!$thumbnail.length) {
+                return;
+            }
+
+            $lightboxImage.attr('src', $thumbnail.attr('src'));
+            $lightboxImage.attr(
+                'alt',
+                $thumbnail.attr('alt') || 'Enlarged product photo'
+            );
+
+            $lightbox.addClass('is-open');
+            $('body').css('overflow', 'hidden');
+
+            $('#image-lightbox-close').trigger('focus');
+        });
+
+        // Close using the X button.
+        $('#image-lightbox-close').on('click', function () {
+            closeLightbox();
+        });
+
+        // Close by clicking the dark background.
+        $lightbox.on('click', function (event) {
+            if (event.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // Close by pressing Escape.
+        $(document).on('keydown', function (event) {
+            if (event.key === 'Escape' && $lightbox.hasClass('is-open')) {
+                closeLightbox();
+            }
+        });
+
+        function closeLightbox() {
+            $lightbox.removeClass('is-open');
+            $lightboxImage.attr('src', '');
+            $('body').css('overflow', '');
+        }
     });
 </script>
 
